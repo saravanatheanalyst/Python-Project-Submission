@@ -47,8 +47,8 @@ def fetch_movie_data(genre):
             # for movie, genre in zip(movie_list, genre_list):
             #     print(f"Movie: {movie}, Genre: {genre}")
 
-            movie_table = pd.DataFrame({'Movie': movie_list, 'Genre': genre_list})
-            print(movie_table)
+            movie_table = pd.DataFrame({'Title': movie_list, 'Genre': genre_list})
+            # print(movie_table)
 
         else:
             print("Title element not found.")
@@ -69,8 +69,8 @@ def fetch_movie_data(genre):
 
 
 def save_to_csv(movies, filename='movies.csv'):
-    df = pd.DataFrame(movies, columns=['Title', 'Genre'])
-    df.to_csv(filename, index=False)
+    # df = pd.DataFrame(movies, columns=['Title', 'Genre'])
+    movies.to_csv(filename, index=False)
     print(f"Data saved to {filename}")
 
 
@@ -88,8 +88,9 @@ def load_and_suggest_movies(genre, filename='movies.csv'):
     if genre_movies.empty:
         print(f"No movies found for the genre: {genre}")
     else:
-        print(f"Movies found for the genre '{genre}':")
-        print(genre_movies)
+        suggestion = genre_movies.sample().iloc[0]
+        print(f"Random movie suggestion for the genre '{genre}':")
+        print(f"Title: '{suggestion['Title']}', Genre: {suggestion['Genre']}")
 
 
 def main():
@@ -97,8 +98,8 @@ def main():
     movies = fetch_movie_data(genre)
 
     if not movies.empty:
-        # save_to_csv(movies)
-        # load_and_suggest_movies(genre)
+        save_to_csv(movies)
+        load_and_suggest_movies(genre)
         print("Movies Fetched Successfully")
     else:
         print("No movies fetched.")
